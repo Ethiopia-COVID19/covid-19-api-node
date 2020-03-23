@@ -39,12 +39,11 @@ router.get('/', (req, res) => {
   })
 })
 
-router.get('/sam', (req, res) => {
-  res.sendFile(`${__dirname}/sam-logo.png`)
+router.get('/covid19et', (req, res) => {
+  res.sendFile(`${__dirname}/covid19et-logo.png`)
 })
 
-//
-
+// API Abstraction
 router.get('/v1/:type/:id?', (req, res) => {
   const type = req.params.type
   if (!type) return res.status(404).json({})
