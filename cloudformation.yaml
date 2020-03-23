@@ -21,18 +21,18 @@ Resources:
           Principal:
             Service: lambda.amazonaws.com
           Action: sts:AssumeRole
-      Path: "/"
+      Path: '/'
       Policies:
-      - PolicyName: root
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-          - Effect: Allow
-            Action:
-            - logs:CreateLogGroup
-            - logs:CreateLogStream
-            - logs:PutLogEvents
-            Resource: arn:aws:logs:*:*:*
+        - PolicyName: root
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*
 
   LambdaApiGatewayExecutionPermission:
     Type: AWS::Lambda::Permission
@@ -44,11 +44,11 @@ Resources:
         - ''
         - - 'arn:aws:execute-api:'
           - !Ref AWS::Region
-          - ":"
+          - ':'
           - !Ref AWS::AccountId
-          - ":"
+          - ':'
           - !Ref ApiGatewayApi
-          - "/*/*"
+          - '/*/*'
 
   YOUR_SERVERLESS_EXPRESS_LAMBDA_FUNCTION_NAME:
     Type: AWS::Serverless::Function
@@ -57,7 +57,7 @@ Resources:
       Handler: lambda.handler
       MemorySize: 1024
       Role: !GetAtt LambdaExecutionRole.Arn
-      Runtime: nodejs8.10
+      Runtime: nodejs12.10
       Timeout: 30
       Events:
         ProxyApiRoot:
@@ -80,9 +80,9 @@ Outputs:
       - ''
       - - https://
         - !Ref AWS::Region
-        - ".console.aws.amazon.com/lambda/home?region="
+        - '.console.aws.amazon.com/lambda/home?region='
         - !Ref AWS::Region
-        - "#/functions/"
+        - '#/functions/'
         - !Ref YOUR_SERVERLESS_EXPRESS_LAMBDA_FUNCTION_NAME
 
   ApiGatewayApiConsoleUrl:
@@ -91,19 +91,20 @@ Outputs:
       - ''
       - - https://
         - !Ref AWS::Region
-        - ".console.aws.amazon.com/apigateway/home?region="
+        - '.console.aws.amazon.com/apigateway/home?region='
         - !Ref AWS::Region
-        - "#/apis/"
+        - '#/apis/'
         - !Ref ApiGatewayApi
-        - "/stages/prod"
+        - '/stages/prod'
 
   ApiUrl:
-    Description: Invoke URL for your API. Clicking this link will perform a GET request
+    Description:
+      Invoke URL for your API. Clicking this link will perform a GET request
       on the root resource of your API.
     Value: !Join
       - ''
       - - https://
         - !Ref ApiGatewayApi
-        - ".execute-api."
+        - '.execute-api.'
         - !Ref AWS::Region
-        - ".amazonaws.com/prod/"
+        - '.amazonaws.com/prod/'
