@@ -1,7 +1,7 @@
 {
-  "name": "aws-serverless-express-example",
-  "version": "2.1.1",
-  "description": "Example application for running a Node Express app on AWS Lambda using Amazon API Gateway.",
+  "name": "covid19-et-api",
+  "version": "1.0.0",
+  "description": "Ethiopia COVID-19 Response API",
   "main": "lambda.js",
   "config": {
     "s3BucketName": "YOUR_UNIQUE_BUCKET_NAME",
@@ -11,7 +11,7 @@
     "accountId": "YOUR_ACCOUNT_ID"
   },
   "scripts": {
-    "start": "node app.local.js",
+    "start": "nodemon app.local.js",
     "config": "node ./scripts/configure.js",
     "deconfig": "node ./scripts/deconfigure.js",
     "local": "node scripts/local",
@@ -42,6 +42,7 @@
     "compression": "^1.6.2",
     "cors": "^2.8.3",
     "express": "^4.15.2",
+    "nodemon": "^2.0.2",
     "pug": "^2.0.0-rc.1"
   }
 }
