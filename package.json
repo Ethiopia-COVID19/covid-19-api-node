@@ -11,7 +11,8 @@
     "accountId": "YOUR_ACCOUNT_ID"
   },
   "scripts": {
-    "start": "nodemon app.local.js",
+    "start": "node app.local.js",
+    "start:dev": "nodemon app.local.js",
     "config": "node ./scripts/configure.js",
     "deconfig": "node ./scripts/deconfigure.js",
     "local": "node scripts/local",
@@ -42,7 +43,9 @@
     "compression": "^1.6.2",
     "cors": "^2.8.3",
     "express": "^4.15.2",
-    "nodemon": "^2.0.2",
     "pug": "^2.0.0-rc.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }
