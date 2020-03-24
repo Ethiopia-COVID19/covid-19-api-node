@@ -10,9 +10,8 @@ const router = express.Router()
 
 // Import sample data
 const community = require('./data/community')
-const communityInspections = require('./data/community-inspections')
-const travelers = require('./data/travelers')
-
+// const travelers = require('./data/travelers')
+const covidAddisApi = require('./covidAddisApi')
 app.set('view engine', 'pug')
 
 if (process.env.NODE_ENV === 'test') {
@@ -44,11 +43,11 @@ router.get('/covid19et', (req, res) => {
 })
 
 // API Abstraction
-router.get('/v1/:type/:id?', (req, res) => {
+router.get('/v1/:type/:id?', async (req, res) => {
   const type = req.params.type
   if (!type) return res.status(404).json({})
 
-  let data = ''
+  let data = []
 
   switch (type) {
     case 'community':
@@ -56,11 +55,12 @@ router.get('/v1/:type/:id?', (req, res) => {
       break
 
     case 'community-inspections':
-      data = communityInspections
+      data = await covidAddisApi.communityInspections()
       break
 
     case 'travelers':
-      data = travelers
+
+      data = await covidAddisApi.getTravelers()
       break
 
     default:
@@ -75,12 +75,38 @@ router.get('/v1/:type/:id?', (req, res) => {
     console.log(id)
     const getRecord = id => data.find(r => r.id === parseInt(id))
 
-    data = getRecord(id)
+    data = getRecord(id) || {}
   }
 
-  return res.json(data)
+  return res.send(data)
 })
 
+router.post('/v1/:type', async (req, res) => {
+  const type = req.params.type
+  if (!type) return res.status(404).send(false)
+
+  let data = false
+
+  switch (type) {
+    case 'community':
+      data = false
+      break
+
+    case 'community-inspections':
+      data = false
+      break
+
+    case 'travelers':
+      data = await covidAddisApi.addTraveler(req.body)
+      break
+
+    default:
+      data = false
+      break
+  }
+
+  return res.send(data)
+})
 router.post('/users', (req, res) => {
   const user = {
     id: ++userIdCounter,
@@ -107,6 +133,7 @@ router.delete('/users/:userId', (req, res) => {
   users.splice(userIndex, 1)
   res.json(users)
 })
+
 
 //
 
